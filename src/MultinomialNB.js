@@ -81,13 +81,15 @@ export class MultinomialNB {
         .clone()
         .mulRowVector(currentElement)
         .sum('row'));
-      let pred = v.add(this.priorProbability);
-      console.log(pred);
-      predictions[i] = v
-        .add(this.priorProbability)   
+      let logits = v.add(this.priorProbability).data.map((val)=>(Math.exp(val[0])));
+      let totalLogits = logits.reduce((a,b) => a+b, 0);
+      let probs = logits.map((val)=>val/totalLogits)
+
+      predictions[i] = probs;
 
     }
 
+    console.log(predictions);
     return predictions;
   }
 
