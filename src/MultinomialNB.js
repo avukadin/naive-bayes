@@ -64,6 +64,15 @@ export class MultinomialNB {
    * @return {Array} - predictions from the dataset.
    */
   predict(dataset) {
+    let probs = this.predictProbs(dataset);
+    var predictions = new Array(dataset.rows);
+    for(let i =0; i<probs.length; i++){
+      predictions[i] = probs[i].maxIndex()[0];  
+    }
+    return predictions;
+  }
+
+  predictProbs(dataset){
     dataset = Matrix.checkMatrix(dataset);
     var predictions = new Array(dataset.rows);
     for (var i = 0; i < dataset.rows; ++i) {
@@ -72,11 +81,11 @@ export class MultinomialNB {
         .clone()
         .mulRowVector(currentElement)
         .sum('row'));
+      let pred = v.add(this.priorProbability);
+      console.log(pred);
       predictions[i] = v
-        .add(this.priorProbability)
-        .maxIndex()[0];
+        .add(this.priorProbability)   
 
-        console.log(v.add(this.priorProbability))
     }
 
     return predictions;
