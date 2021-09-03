@@ -75,6 +75,8 @@ export class MultinomialNB {
       predictions[i] = v
         .add(this.priorProbability)
         .maxIndex()[0];
+
+        console.log(v.add(this.priorProbability))
     }
 
     return predictions;
