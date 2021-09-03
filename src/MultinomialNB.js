@@ -67,9 +67,17 @@ export class MultinomialNB {
     let probs = this.predictProbs(dataset);
     var predictions = new Array(dataset.rows);
     for(let i =0; i<probs.length; i++){
-      predictions[i] = probs[i].maxIndex()[0];  
+      predictions[i] = this.getMaxIndex(probs[i]);
     }
     return predictions;
+  }
+
+  getMaxIndex(values){
+    let list = [];
+    for (var j = 0; j < values.length; j++)
+      list.push({ value: values[j], index: j });
+    list = list.sort((a, b) => b.value - a.value);
+    return list[0].index;
   }
 
   predictProbs(dataset){
