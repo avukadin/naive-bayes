@@ -96,8 +96,6 @@ export class MultinomialNB {
       predictions[i] = probs;
 
     }
-
-    console.log(predictions);
     return predictions;
   }
 
